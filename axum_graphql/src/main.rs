@@ -10,6 +10,7 @@ use async_graphql::{EmptyMutation, EmptySubscription, Schema};
 use axum::middleware;
 use axum::{extract::Extension, routing::get, Router, Server};
 use clap::Parser;
+use command_line::DieselDemo;
 use command_line::SqlCase;
 use dotenv::dotenv;
 use std::future::ready;
@@ -104,27 +105,10 @@ async fn main() {
                 },
             }
         }
-        SubCommand::DieselDemo => {
-            use diesel::prelude::*;
-            use diesel_demo::models::*;
-            use diesel_demo::schema::posts::dsl::*;
-            use diesel_demo::*;
-
-            let connection = &mut establish_connection();
-            let results = posts
-                .filter(published.eq(true))
-                .limit(5)
-                .select(Post::as_select())
-                .load(connection)
-                .expect("Error loading posts");
-
-            info!("Displaying {} posts", results.len());
-            for post in results {
-                info!("{}", post.title);
-                info!("-----------\n");
-                info!("{}", post.body);
-            }
-        }
+        SubCommand::DieselDemo { demo } => match demo {
+            DieselDemo::ShowPost => diesel_demo::show_post(),
+            DieselDemo::CreatePost { title, body } => diesel_demo::create_post(&title, &body),
+        },
         _ => todo!("not implemented"),
     }
 }
