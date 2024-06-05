@@ -4,7 +4,8 @@ use crate::command_line::SubCommand;
 use clap::Parser;
 use command_line::DieselDemo;
 use command_line::SqlCase;
-// use dotenv::dotenv;
+#[allow(unused)]
+use dotenv::dotenv;
 
 mod command_line;
 

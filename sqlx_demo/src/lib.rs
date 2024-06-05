@@ -9,17 +9,17 @@ use sqlx::{Decode, Encode};
 use std::error::Error;
 
 #[allow(unused)]
-use tracing::{error, info, warn};
+use tracer::{error, info, warn};
 
 pub fn setup_simple_tracing() {
-    use tracing::Level;
-    use tracing_subscriber::FmtSubscriber;
+    use tracer::FmtSubscriber;
+    use tracer::Level;
 
     let subscriber = FmtSubscriber::builder()
         .with_max_level(Level::TRACE)
         .finish();
 
-    tracing::subscriber::set_global_default(subscriber).expect("setting default subscriber failed");
+    tracer::subscriber::set_global_default(subscriber).expect("setting default subscriber failed");
 }
 
 pub const DB_FOR_DEV: &str = "postgres://postgres:postgres@localhost:5432/myapp";

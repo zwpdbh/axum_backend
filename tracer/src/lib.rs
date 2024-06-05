@@ -1,7 +1,11 @@
+pub use opentelemetry;
 use opentelemetry::sdk::trace::Tracer;
 use std::env;
-
+pub use tracing::{debug, error, info, span, trace, warn, Instrument, Level};
+pub use tracing_opentelemetry;
 pub mod observability;
+pub use tracing::subscriber;
+pub use tracing_subscriber::FmtSubscriber;
 
 struct JaegerConfig {
     jaeger_agent_host: String,

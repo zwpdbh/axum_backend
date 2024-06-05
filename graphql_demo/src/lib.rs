@@ -16,12 +16,13 @@ use axum::{
     response::{Html, IntoResponse},
 };
 use axum::{http::StatusCode, Json};
-use opentelemetry::trace::TraceContextExt;
 use serde::Serialize;
 use std::future::ready;
 use tokio::signal;
-use tracing::{info, span, Instrument, Level};
-use tracing_opentelemetry::OpenTelemetrySpanExt;
+use tracer::opentelemetry::trace::TraceContextExt;
+use tracer::tracing_opentelemetry::OpenTelemetrySpanExt;
+
+use tracer::{info, span, Instrument, Level};
 
 mod query;
 
@@ -68,7 +69,6 @@ pub(crate) async fn health() -> impl IntoResponse {
 }
 
 async fn shutdown_signal() {
-    // (1)
     let ctrl_c = async {
         signal::ctrl_c()
             .await
@@ -91,7 +91,7 @@ async fn shutdown_signal() {
         _ = terminate => {},
     }
 
-    opentelemetry::global::shutdown_tracer_provider();
+    tracer::opentelemetry::global::shutdown_tracer_provider();
 }
 
 pub async fn run(port: &str) {
@@ -100,6 +100,7 @@ pub async fn run(port: &str) {
     let schema = Schema::build(query::Query, EmptyMutation, EmptySubscription)
         .data(conn)
         .finish();
+
     let prometheus_recorder = tracer::observability::metrics::create_prometheus_recorder();
 
     let address = format!("0.0.0.0:{}", port);

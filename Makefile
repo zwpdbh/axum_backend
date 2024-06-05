@@ -24,3 +24,6 @@ sqlx_demo_bookstore_update:
 
 sqlx_demo_bookstore_read:
 	cargo run -p axum_graphql sqlx-demo bookstore read -v 3
+
+graphql_demo_start: 
+	cargo run -p axum_graphql graphql-demo --port 3000
