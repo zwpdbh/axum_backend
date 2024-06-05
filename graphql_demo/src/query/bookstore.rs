@@ -7,14 +7,6 @@ use sqlx::Row;
 
 use super::format_date;
 
-// {
-//   categories{
-//     id,
-//     description,
-//     insertedAt,
-//     updatedAt
-// 	}
-// }
 pub struct Category {
     pub id: i32,
     pub name: String,

@@ -1,4 +1,4 @@
 [workspace]
 resolver = "2"
 
-members = ["axum_graphql", "diesel_demo"]
+members = ["axum_graphql", "diesel_demo", "graphql_demo", "sqlx_demo", "tracer"]

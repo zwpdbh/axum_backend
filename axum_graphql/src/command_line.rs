@@ -1,4 +1,4 @@
-use clap::{Parser, Subcommand, ValueEnum};
+use clap::{Parser, Subcommand};
 
 #[derive(Parser, Debug)]
 #[clap(author = "zhaowei", version, about)]
@@ -11,15 +11,11 @@ pub struct Arguments {
 pub enum SubCommand {
     /// Ex: cargo run -- axum-sqlx --port 3000,
     /// then visit http://localhost:3000/graphql to see the graphql playground
-    AxumSqlx {
+    GraphqlDemo {
         #[arg(long, short)]
         port: String,
     },
-    AxumSeaorm {
-        #[arg(long, short)]
-        port: String,
-    },
-    Sqlx {
+    SqlxDemo {
         #[clap(subcommand)]
         case: SqlCase,
     },
@@ -67,14 +63,6 @@ pub enum BookstoreEx {
     Update,
     Read {
         #[arg(short)]
-        v: ExVersion,
+        v: i32,
     },
-}
-
-#[derive(Debug, Clone, ValueEnum)]
-pub enum ExVersion {
-    V1,
-    V2,
-    V3,
-    V4,
 }

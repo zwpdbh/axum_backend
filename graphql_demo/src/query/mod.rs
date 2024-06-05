@@ -1,17 +1,17 @@
-use crate::query::elixir::MenuItem;
+use crate::query::bookstore::MenuItem;
 use async_graphql::FieldResult;
 use async_graphql::{Context, Object, Schema};
 use async_graphql::{EmptyMutation, EmptySubscription};
+use bookstore::Category;
 use chrono::format::StrftimeItems;
-use elixir::Category;
 use sqlx::PgPool;
 
-pub mod elixir;
+pub mod bookstore;
 
-pub(crate) type ServiceSchema = Schema<Query, EmptyMutation, EmptySubscription>;
+pub type ServiceSchema = Schema<Query, EmptyMutation, EmptySubscription>;
 
 /// This is the Query object within your schema. It is the root of all queries users can use at your service.
-pub(crate) struct Query;
+pub struct Query;
 
 /// Convert datetime to string as format: "2015-09-05 23:56:04"
 pub fn format_datetime(datetime: &chrono::NaiveDateTime) -> String {

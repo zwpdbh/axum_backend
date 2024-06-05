@@ -1,5 +1,5 @@
-use crate::command_line::ExVersion;
 use futures::stream::StreamExt;
+// use futures::stream::TryStreamExt;
 use serde::{Deserialize, Serialize};
 use sqlx::postgres::PgRow;
 use sqlx::types::Json;
@@ -10,6 +10,19 @@ use std::error::Error;
 
 #[allow(unused)]
 use tracing::{error, info, warn};
+
+pub fn setup_simple_tracing() {
+    use tracing::Level;
+    use tracing_subscriber::FmtSubscriber;
+
+    let subscriber = FmtSubscriber::builder()
+        .with_max_level(Level::TRACE)
+        .finish();
+
+    tracing::subscriber::set_global_default(subscriber).expect("setting default subscriber failed");
+}
+
+pub const DB_FOR_DEV: &str = "postgres://postgres:postgres@localhost:5432/myapp";
 
 #[derive(Debug)]
 pub struct Book {
@@ -47,15 +60,27 @@ impl sqlx::Type<Postgres> for Metadata {
     }
 }
 
+pub async fn test() -> Result<(), Box<dyn Error>> {
+    let pool = sqlx::postgres::PgPool::connect(DB_FOR_DEV).await.unwrap();
+    let res = sqlx::query("SELECT 1 + 1 as sum").fetch_one(&pool).await?;
+
+    let sum: i32 = res.get("sum");
+    info!("1 + 1 = {sum}");
+
+    Ok(())
+}
+
 /// Example show how to create records
 /// cargo run -- sqlx bookstore create
-pub async fn create_book_example(pool: &sqlx::PgPool) -> Result<(), Box<dyn Error>> {
+pub async fn create_book_example() -> Result<(), Box<dyn Error>> {
+    let pool = sqlx::postgres::PgPool::connect(DB_FOR_DEV).await.unwrap();
+
     let query = "insert into book (title, author, isbn) values ($1, $2, $3)";
     sqlx::query(query)
         .bind("book01".to_string())
         .bind("fox".to_string())
         .bind("000-111-222-33".to_string())
-        .execute(pool)
+        .execute(&pool)
         .await?;
 
     let book = Book {
@@ -75,7 +100,7 @@ pub async fn create_book_example(pool: &sqlx::PgPool) -> Result<(), Box<dyn Erro
         .bind(&book.author)
         .bind(&book.isbn)
         .bind(serde_json::to_value(&book.metadata).unwrap())
-        .execute(pool)
+        .execute(&pool)
         .await?;
 
     Ok(())
@@ -83,7 +108,9 @@ pub async fn create_book_example(pool: &sqlx::PgPool) -> Result<(), Box<dyn Erro
 
 /// Example show how to update records
 /// cargo run -- sqlx bookstore update
-pub async fn update_book_example(pool: &sqlx::PgPool) -> Result<(), Box<dyn Error>> {
+pub async fn update_book_example() -> Result<(), Box<dyn Error>> {
+    let pool = sqlx::postgres::PgPool::connect(DB_FOR_DEV).await.unwrap();
+
     let query = "update book set title = $1, author = $2, metadata = $3 where isbn = $4";
     sqlx::query(query)
         .bind("book01_changed".to_string())
@@ -96,30 +123,28 @@ pub async fn update_book_example(pool: &sqlx::PgPool) -> Result<(), Box<dyn Erro
             .unwrap(),
         )
         .bind("000-111-222-33".to_string())
-        .execute(pool)
+        .execute(&pool)
         .await?;
 
     let query = "update book set author = $1 where isbn = $2";
     sqlx::query(query)
         .bind("Margin games".to_string())
         .bind("111-222-333-444".to_string())
-        .execute(pool)
+        .execute(&pool)
         .await?;
 
     Ok(())
 }
 
 /// Shows how to read records from db in different ways.
-pub async fn read_book_example(
-    pool: &sqlx::PgPool,
-    v: ExVersion,
-) -> Result<Vec<Book>, Box<dyn Error>> {
-    // let _ = sqlx::migrate!("migrations/bookstore").run(&pool).await?;
+pub async fn read_book_example(v: i32) -> Result<Vec<Book>, Box<dyn Error>> {
+    let pool = sqlx::postgres::PgPool::connect(DB_FOR_DEV).await.unwrap();
 
+    // let _ = sqlx::migrate!("migrations/bookstore").run(&pool).await?;
     let books = match v {
-        ExVersion::V1 => fetch_books_v1(pool).await?,
-        ExVersion::V2 => fetch_books_v2(pool).await?,
-        ExVersion::V3 => fetch_books_v3(pool).await?,
+        1 => fetch_books_v1(&pool).await?,
+        2 => fetch_books_v2(&pool).await?,
+        3 => fetch_books_v3(&pool).await?,
         _ => todo!("not implemented"),
     };
 

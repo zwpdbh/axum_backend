@@ -12,3 +12,15 @@ diesel_demo_select_post:
 
 diesel_demo_delete_post:
 	cargo run -p axum_graphql diesel-demo delete-post --target my
+
+sqlx_demo_test: 
+	cargo run -p axum_graphql sqlx-demo test
+
+sqlx_demo_bookstore_create:
+	cargo run -p axum_graphql sqlx-demo bookstore create 
+
+sqlx_demo_bookstore_update:
+	cargo run -p axum_graphql sqlx-demo bookstore update 
+
+sqlx_demo_bookstore_read:
+	cargo run -p axum_graphql sqlx-demo bookstore read -v 3

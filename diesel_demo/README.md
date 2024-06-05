@@ -62,3 +62,8 @@ From the path which contains the `.env` file run `diesel-cli`
     - This will run the migration.
     - In addition, this will generate a `schema.rs` file defined from `diesel.toml` file.
     - Any time we run or revert a migration, this file will get automatically updated.
+
+## References
+
+- [Getting Started with Diesel](https://diesel.rs/guides/getting-started)
+- [axum-diesel-async-graphql-template](https://github.com/mishaszu/axum-diesel-async-graphql-template/tree/main)

@@ -1,6 +1,8 @@
 use opentelemetry::sdk::trace::Tracer;
 use std::env;
 
+pub mod observability;
+
 struct JaegerConfig {
     jaeger_agent_host: String,
     jaeger_agent_port: String,
