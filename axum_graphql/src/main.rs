@@ -4,13 +4,13 @@ use crate::command_line::SubCommand;
 use clap::Parser;
 use command_line::DieselDemo;
 use command_line::SqlCase;
-#[allow(unused)]
 use dotenv::dotenv;
 
 mod command_line;
 
 #[tokio::main]
 async fn main() {
+    let _ = dotenv().ok();
     let _ = tracer::setup_tracer();
 
     let args = Arguments::parse();
