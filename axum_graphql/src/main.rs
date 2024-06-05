@@ -60,7 +60,6 @@ async fn main() {
             let conn = sqlx::postgres::PgPool::connect(db::DB_FOR_DEV)
                 .await
                 .unwrap();
-            let _ = sqlx::migrate!("./migrations").run(&conn).await.unwrap();
 
             let schema = Schema::build(Query, EmptyMutation, EmptySubscription)
                 .data(conn)
@@ -87,7 +86,6 @@ async fn main() {
             let conn = sqlx::postgres::PgPool::connect(db::DB_FOR_DEV)
                 .await
                 .unwrap();
-            let _ = sqlx::migrate!("./migrations").run(&conn).await.unwrap();
 
             match case {
                 SqlCase::Test => {
@@ -104,6 +102,27 @@ async fn main() {
                         let _ = db::bookstore::read_book_example(&conn, v).await.unwrap();
                     }
                 },
+            }
+        }
+        SubCommand::DieselDemo => {
+            use diesel::prelude::*;
+            use diesel_demo::models::*;
+            use diesel_demo::schema::posts::dsl::*;
+            use diesel_demo::*;
+
+            let connection = &mut establish_connection();
+            let results = posts
+                .filter(published.eq(true))
+                .limit(5)
+                .select(Post::as_select())
+                .load(connection)
+                .expect("Error loading posts");
+
+            info!("Displaying {} posts", results.len());
+            for post in results {
+                info!("{}", post.title);
+                info!("-----------\n");
+                info!("{}", post.body);
             }
         }
         _ => todo!("not implemented"),

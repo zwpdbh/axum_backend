@@ -1,4 +1,4 @@
-# sudo docker compose -f axum_graph/dockers/postgres_only/docker-compose.yaml up
+# sudo docker compose -f dockers/postgres_only/docker-compose.yaml up
 services:
   db:
     image: postgres:15

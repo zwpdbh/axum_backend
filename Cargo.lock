@@ -319,7 +319,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "axum_graph"
+name = "axum_graphql"
 version = "0.1.0"
 dependencies = [
  "async-graphql",
@@ -328,6 +328,8 @@ dependencies = [
  "bigdecimal 0.4.3",
  "chrono",
  "clap",
+ "diesel",
+ "diesel_demo",
  "dotenv",
  "futures",
  "metrics",
@@ -650,6 +652,50 @@ dependencies = [
 ]
 
 [[package]]
+name = "diesel"
+version = "2.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "35b696af9ff4c0d2a507db2c5faafa8aa0205e297e5f11e203a24226d5355e7a"
+dependencies = [
+ "bitflags 2.5.0",
+ "byteorder",
+ "diesel_derives",
+ "itoa",
+ "pq-sys",
+]
+
+[[package]]
+name = "diesel_demo"
+version = "0.1.0"
+dependencies = [
+ "diesel",
+ "dotenv",
+ "dotenvy",
+]
+
+[[package]]
+name = "diesel_derives"
+version = "2.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0d6fdd83d5947068817016e939596d246e5367279453f2a3433287894f2f2996"
+dependencies = [
+ "diesel_table_macro_syntax",
+ "dsl_auto_type",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.66",
+]
+
+[[package]]
+name = "diesel_table_macro_syntax"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "209c735641a413bc68c4923a9d6ad4bcb3ca306b794edaa7eb0b3228a99ffb25"
+dependencies = [
+ "syn 2.0.66",
+]
+
+[[package]]
 name = "digest"
 version = "0.10.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -672,6 +718,20 @@ name = "dotenvy"
 version = "0.15.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1aaf95b3e5c8f23aa320147307562d361db0ae0d51242340f558153b4eb2439b"
+
+[[package]]
+name = "dsl_auto_type"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ab32c18ea6760d951659768a3e35ea72fc1ba0916d665a88dfe048b2a41e543f"
+dependencies = [
+ "darling",
+ "either",
+ "heck 0.5.0",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.66",
+]
 
 [[package]]
 name = "either"
@@ -1733,6 +1793,15 @@ name = "ppv-lite86"
 version = "0.2.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5b40af805b3121feab8a3c29f04d8ad262fa8e0561883e7653e024ae4479e6de"
+
+[[package]]
+name = "pq-sys"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5576e3fa8738e1a71285f7211ff83458514aa4864aa34c2bdb422445448d4c4b"
+dependencies = [
+ "vcpkg",
+]
 
 [[package]]
 name = "proc-macro-crate"

@@ -23,6 +23,7 @@ pub enum SubCommand {
         #[clap(subcommand)]
         case: SqlCase,
     },
+    DieselDemo,
 }
 
 #[derive(Subcommand, Debug, Clone)]
