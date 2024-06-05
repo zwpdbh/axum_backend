@@ -1,17 +1,17 @@
 diesel_demo_show_post:
-	cargo run -p axum_graphql diesel-demo show-post
+	cargo run -p axum_graphql diesel-demo post show
 
 diesel_demo_create_post:
-	cargo run -p axum_graphql diesel-demo create-post --title "my first post" --body "diesel is great"
+	cargo run -p axum_graphql diesel-demo post create --title "my first post" --body "diesel is great"
 
 diesel_demo_update_post:
-	cargo run -p axum_graphql diesel-demo update-post --id 1
+	cargo run -p axum_graphql diesel-demo post update --id 1
 
 diesel_demo_select_post:
-	cargo run -p axum_graphql diesel-demo select-post --id 3
+	cargo run -p axum_graphql diesel-demo post select --id 3
 
 diesel_demo_delete_post:
-	cargo run -p axum_graphql diesel-demo delete-post --target my
+	cargo run -p axum_graphql diesel-demo post delete --target my
 
 sqlx_demo_test: 
 	cargo run -p axum_graphql sqlx-demo test
