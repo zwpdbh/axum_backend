@@ -30,15 +30,6 @@ pub enum SubCommand {
 }
 
 #[derive(Subcommand, Debug, Clone)]
-pub enum SqlCase {
-    Test,
-    Bookstore {
-        #[clap(subcommand)]
-        example: BookstoreEx,
-    },
-}
-
-#[derive(Subcommand, Debug, Clone)]
 pub enum DieselDemo {
     ShowPost,
     CreatePost {
@@ -46,6 +37,27 @@ pub enum DieselDemo {
         title: String,
         #[arg(long)]
         body: String,
+    },
+    UpdatePost {
+        #[arg(long)]
+        id: i32,
+    },
+    SelectPost {
+        #[arg(long)]
+        id: i32,
+    },
+    DeletePost {
+        #[arg(long)]
+        target: String,
+    },
+}
+
+#[derive(Subcommand, Debug, Clone)]
+pub enum SqlCase {
+    Test,
+    Bookstore {
+        #[clap(subcommand)]
+        example: BookstoreEx,
     },
 }
 

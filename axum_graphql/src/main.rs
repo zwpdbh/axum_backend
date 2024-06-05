@@ -108,6 +108,9 @@ async fn main() {
         SubCommand::DieselDemo { demo } => match demo {
             DieselDemo::ShowPost => diesel_demo::show_post(),
             DieselDemo::CreatePost { title, body } => diesel_demo::create_post(&title, &body),
+            DieselDemo::UpdatePost { id } => diesel_demo::update_post(id),
+            DieselDemo::SelectPost { id } => diesel_demo::select_post(id),
+            DieselDemo::DeletePost { target } => diesel_demo::delete_post(&target),
         },
         _ => todo!("not implemented"),
     }
