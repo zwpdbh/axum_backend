@@ -6,6 +6,7 @@ use sqlx::types::Json;
 use sqlx::Postgres;
 use sqlx::Row;
 use sqlx::{Decode, Encode};
+use std::env;
 use std::error::Error;
 
 #[allow(unused)]
@@ -22,7 +23,9 @@ pub fn setup_simple_tracing() {
     tracer::subscriber::set_global_default(subscriber).expect("setting default subscriber failed");
 }
 
-pub const DB_FOR_DEV: &str = "postgres://postgres:postgres@localhost:5432/myapp";
+fn db_url() -> String {
+    env::var("DATABASE_URL").expect("DATABASE_URL must be set")
+}
 
 #[derive(Debug)]
 pub struct Book {
@@ -61,7 +64,7 @@ impl sqlx::Type<Postgres> for Metadata {
 }
 
 pub async fn test() -> Result<(), Box<dyn Error>> {
-    let pool = sqlx::postgres::PgPool::connect(DB_FOR_DEV).await.unwrap();
+    let pool = sqlx::postgres::PgPool::connect(&db_url()).await.unwrap();
     let res = sqlx::query("SELECT 1 + 1 as sum").fetch_one(&pool).await?;
 
     let sum: i32 = res.get("sum");
@@ -73,7 +76,7 @@ pub async fn test() -> Result<(), Box<dyn Error>> {
 /// Example show how to create records
 /// cargo run -- sqlx bookstore create
 pub async fn create_book_example() -> Result<(), Box<dyn Error>> {
-    let pool = sqlx::postgres::PgPool::connect(DB_FOR_DEV).await.unwrap();
+    let pool = sqlx::postgres::PgPool::connect(&db_url()).await.unwrap();
 
     let query = "insert into book (title, author, isbn) values ($1, $2, $3)";
     sqlx::query(query)
@@ -109,7 +112,7 @@ pub async fn create_book_example() -> Result<(), Box<dyn Error>> {
 /// Example show how to update records
 /// cargo run -- sqlx bookstore update
 pub async fn update_book_example() -> Result<(), Box<dyn Error>> {
-    let pool = sqlx::postgres::PgPool::connect(DB_FOR_DEV).await.unwrap();
+    let pool = sqlx::postgres::PgPool::connect(&db_url()).await.unwrap();
 
     let query = "update book set title = $1, author = $2, metadata = $3 where isbn = $4";
     sqlx::query(query)
@@ -138,7 +141,7 @@ pub async fn update_book_example() -> Result<(), Box<dyn Error>> {
 
 /// Shows how to read records from db in different ways.
 pub async fn read_book_example(v: i32) -> Result<Vec<Book>, Box<dyn Error>> {
-    let pool = sqlx::postgres::PgPool::connect(DB_FOR_DEV).await.unwrap();
+    let pool = sqlx::postgres::PgPool::connect(&db_url()).await.unwrap();
 
     // let _ = sqlx::migrate!("migrations/bookstore").run(&pool).await?;
     let books = match v {
