@@ -1,0 +1,20 @@
+[package]
+name = "axum_graphql"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+diesel_demo = { path = "../diesel_demo" }
+sqlx_demo = { path = "../sqlx_demo" }
+graphql_demo = { path = "../graphql_demo" }
+axum = "0.6.20"
+tokio = { version = "1.32.0", features = ["full"] }
+diesel = { version = "2.2.0", features = ["postgres", "chrono"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+bigdecimal = { version = "0.4.3" }
+dotenv = "0.15.0"
+futures = { version = "0.3" }
+clap = { version = "4.5", features = ["derive"] }
+tracer = { path = "../tracer" }

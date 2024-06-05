@@ -102,9 +102,9 @@ dependencies = [
 
 [[package]]
 name = "anstyle-query"
-version = "1.0.3"
+version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a64c907d4e79225ac72e2a354c9ce84d50ebb4586dee56c82b3ee73004f537f5"
+checksum = "ad186efb764318d35165f1758e7dcef3b10628e26d41a44bc5550652e6804391"
 dependencies = [
  "windows-sys 0.52.0",
 ]
@@ -319,28 +319,23 @@ dependencies = [
 ]
 
 [[package]]
-name = "axum_graph"
+name = "axum_graphql"
 version = "0.1.0"
 dependencies = [
- "async-graphql",
- "async-graphql-axum",
  "axum",
  "bigdecimal 0.4.3",
  "chrono",
  "clap",
+ "diesel",
+ "diesel_demo",
  "dotenv",
  "futures",
- "metrics",
- "metrics-exporter-prometheus",
- "opentelemetry",
- "opentelemetry-jaeger",
+ "graphql_demo",
  "serde",
  "serde_json",
- "sqlx",
+ "sqlx_demo",
  "tokio",
- "tracing",
- "tracing-opentelemetry",
- "tracing-subscriber",
+ "tracer",
 ]
 
 [[package]]
@@ -650,6 +645,51 @@ dependencies = [
 ]
 
 [[package]]
+name = "diesel"
+version = "2.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "35b696af9ff4c0d2a507db2c5faafa8aa0205e297e5f11e203a24226d5355e7a"
+dependencies = [
+ "bitflags 2.5.0",
+ "byteorder",
+ "chrono",
+ "diesel_derives",
+ "itoa",
+ "pq-sys",
+]
+
+[[package]]
+name = "diesel_demo"
+version = "0.1.0"
+dependencies = [
+ "diesel",
+ "dotenv",
+ "dotenvy",
+]
+
+[[package]]
+name = "diesel_derives"
+version = "2.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0d6fdd83d5947068817016e939596d246e5367279453f2a3433287894f2f2996"
+dependencies = [
+ "diesel_table_macro_syntax",
+ "dsl_auto_type",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.66",
+]
+
+[[package]]
+name = "diesel_table_macro_syntax"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "209c735641a413bc68c4923a9d6ad4bcb3ca306b794edaa7eb0b3228a99ffb25"
+dependencies = [
+ "syn 2.0.66",
+]
+
+[[package]]
 name = "digest"
 version = "0.10.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -672,6 +712,20 @@ name = "dotenvy"
 version = "0.15.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1aaf95b3e5c8f23aa320147307562d361db0ae0d51242340f558153b4eb2439b"
+
+[[package]]
+name = "dsl_auto_type"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ab32c18ea6760d951659768a3e35ea72fc1ba0916d665a88dfe048b2a41e543f"
+dependencies = [
+ "darling",
+ "either",
+ "heck 0.5.0",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.66",
+]
 
 [[package]]
 name = "either"
@@ -891,6 +945,24 @@ name = "gimli"
 version = "0.29.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "40ecd4077b5ae9fd2e9e169b102c6c330d0605168eb0e8bf79952b256dbefffd"
+
+[[package]]
+name = "graphql_demo"
+version = "0.1.0"
+dependencies = [
+ "async-graphql",
+ "async-graphql-axum",
+ "axum",
+ "bigdecimal 0.4.3",
+ "chrono",
+ "dotenv",
+ "futures",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "tokio",
+ "tracer",
+]
 
 [[package]]
 name = "handlebars"
@@ -1735,6 +1807,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5b40af805b3121feab8a3c29f04d8ad262fa8e0561883e7653e024ae4479e6de"
 
 [[package]]
+name = "pq-sys"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5576e3fa8738e1a71285f7211ff83458514aa4864aa34c2bdb422445448d4c4b"
+dependencies = [
+ "vcpkg",
+]
+
+[[package]]
 name = "proc-macro-crate"
 version = "1.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2371,6 +2452,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "sqlx_demo"
+version = "0.1.0"
+dependencies = [
+ "futures",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "tracer",
+]
+
+[[package]]
 name = "static_assertions"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2641,6 +2733,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b6bc1c9ce2b5135ac7f93c72918fc37feb872bdc6a5533a8b85eb4b86bfdae52"
 
 [[package]]
+name = "tracer"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "metrics",
+ "metrics-exporter-prometheus",
+ "opentelemetry",
+ "opentelemetry-jaeger",
+ "tracing",
+ "tracing-opentelemetry",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "tracing"
 version = "0.1.40"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2712,6 +2818,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "tracing-serde"
+version = "0.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bc6b213177105856957181934e4920de57730fc69bf42c37ee5bb664d406d9e1"
+dependencies = [
+ "serde",
+ "tracing-core",
+]
+
+[[package]]
 name = "tracing-subscriber"
 version = "0.3.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2721,12 +2837,15 @@ dependencies = [
  "nu-ansi-term",
  "once_cell",
  "regex",
+ "serde",
+ "serde_json",
  "sharded-slab",
  "smallvec",
  "thread_local",
  "tracing",
  "tracing-core",
  "tracing-log 0.2.0",
+ "tracing-serde",
 ]
 
 [[package]]
