@@ -27,3 +27,6 @@ sqlx_demo_bookstore_read:
 
 graphql_demo_start: 
 	cargo run -p axum_graphql graphql-demo --port 3000
+
+seaorm_demo_start: 
+	cargo run -p axum_graphql seaorm-demo --port 3000

@@ -28,4 +28,8 @@ pub enum SubCommand {
         #[clap(subcommand)]
         case: DieselDemoCase,
     },
+    SeaormDemo {
+        #[arg(long, short)]
+        port: i32,
+    },
 }

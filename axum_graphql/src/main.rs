@@ -20,5 +20,9 @@ async fn main() {
             let _ = sqlx::run(case).await;
         }
         SubCommand::DieselDemo { case } => command_line::diesel::run(case),
+
+        SubCommand::SeaormDemo { port } => {
+            let _ = seaorm_demo::run(port).await;
+        }
     }
 }

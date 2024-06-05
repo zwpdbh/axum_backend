@@ -7,6 +7,7 @@ edition = "2021"
 diesel_demo = { path = "../diesel_demo" }
 sqlx_demo = { path = "../sqlx_demo" }
 graphql_demo = { path = "../graphql_demo" }
+seaorm_demo = { path = "../seaorm_demo" }
 axum = "0.6.20"
 tokio = { version = "1.32.0", features = ["full"] }
 diesel = { version = "2.2.0", features = ["postgres", "chrono"] }
