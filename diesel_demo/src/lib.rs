@@ -1,3 +1,6 @@
+#[macro_use]
+extern crate diesel;
+
 use crate::models::Post;
 use crate::schema::posts;
 use diesel::pg::PgConnection;

@@ -31,6 +31,5 @@ tracing-subscriber = { version = "0.3.17", features = ["std", "env-filter"] }
 futures = { version = "0.3" }
 chrono = { version = "0.4", features = ["serde"] }
 bigdecimal = { version = "0.4.3" }
-
-diesel = { version = "2.2.0", features = ["postgres"] }
+diesel = { version = "2.2.0", features = ["postgres", "chrono"] }
 diesel_demo = { path = "../diesel_demo" }
