@@ -34,3 +34,8 @@ info: syncing channel updates for 'stable-x86_64-unknown-linux-gnu'
 
 info: checking for self-update
 ```
+
+## Troubleshooting 
+
+- `rustup update` failing with could not rename component file
+  - Solution: `rustup toolchain uninstall stable && rustup toolchain install stable`
