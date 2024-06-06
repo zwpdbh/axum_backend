@@ -15,6 +15,7 @@ use axum::{
 use axum::{http::StatusCode, Json};
 use axum::{middleware, Server};
 use lazy_static::lazy_static;
+use sea_orm::DatabaseConnection;
 use serde::Serialize;
 use std::env;
 use std::future::ready;
@@ -64,6 +65,11 @@ pub async fn graphql_handler(
         .into()
 }
 
+#[derive(Clone)]
+struct AppState {
+    conn: DatabaseConnection,
+}
+
 #[derive(Serialize)]
 struct Health {
     healthy: bool,
@@ -104,9 +110,10 @@ pub async fn run(port: i32) {
     let connection = sea_orm::Database::connect(std::env::var("DATABASE_URL").unwrap())
         .await
         .expect("Could not connect to database");
+    let state = AppState { conn: connection };
 
     let schema = Schema::build(query::Query, EmptyMutation, EmptySubscription)
-        .data(connection)
+        // .data(connection)
         .finish();
 
     let prometheus_recorder = tracer::observability::metrics::create_prometheus_recorder();
@@ -121,7 +128,8 @@ pub async fn run(port: i32) {
         .route_layer(middleware::from_fn(
             tracer::observability::metrics::track_metrics,
         ))
-        .layer(Extension(schema));
+        .layer(Extension(schema))
+        .with_state(state);
 
     Server::bind(&address.parse().unwrap())
         .serve(app.into_make_service())
