@@ -9,4 +9,6 @@ members = [
   "sqlx_demo",
   "tracer",
   "seaorm_demo/migration",
+  "seaorm_demo/entity",
+  "seaorm_demo/service",
 ]

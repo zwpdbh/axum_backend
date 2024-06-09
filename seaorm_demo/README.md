@@ -25,7 +25,7 @@ sea-orm-cli generate entity --tables user -o entity/src --lib --with-serde both 
 ```
 
 - Table name is `user`, it is case sensitive.
-- We generate the files into a new filder named `entity/src`. So, later we could change it into a dependent cargo `lib`.
+- We generate the files into a new filder named `entity/src`. So, later we could use it as if it is created from `cargo new --lib`.
 - So the current tree structure is: 
 
 ```sh
@@ -115,3 +115,4 @@ entity = { path = "./entity" }
 ## References
 
 - [Axum+SeaORM+Async-graphql: Building a GraphQL Service from Scratch](https://dev.to/yexiyue/axumseaormasync-graphql-building-a-graphql-service-from-scratch-52kk)
+- [Axum-GraphQL with SeaORM example app](https://github.com/SeaQL/sea-orm/blob/master/examples/graphql_example/README.md)
