@@ -21,7 +21,7 @@ sea-orm-cli migrate init
 1. Generate entity
 
 ```sh 
-sea-orm-cli generate entity --tables user -o entity/src --lib --with-serde both --model-extra-derives async_graphql::SimpleObject
+sea-orm-cli generate entity --tables user -o src/entities --with-serde both --model-extra-derives async_graphql::SimpleObject
 ```
 
 - Table name is `user`, it is case sensitive.
