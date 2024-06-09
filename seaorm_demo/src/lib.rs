@@ -67,6 +67,7 @@ pub async fn graphql_handler(
 
 #[derive(Clone)]
 struct AppState {
+    #[allow(unused)]
     conn: DatabaseConnection,
 }
 
