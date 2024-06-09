@@ -11,4 +11,5 @@ members = [
   "seaorm_demo/migration",
   "seaorm_demo/entity",
   "seaorm_demo/service",
+  "seaorm_demo/api",
 ]
