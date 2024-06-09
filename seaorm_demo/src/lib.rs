@@ -1,4 +1,3 @@
-mod entities;
 mod query;
 
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
