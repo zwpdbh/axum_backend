@@ -1,7 +1,8 @@
+mod db;
+mod graphql;
+
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
-use async_graphql::EmptyMutation;
-use async_graphql::EmptySubscription;
-use async_graphql::Schema;
+
 use async_graphql_axum::{GraphQLRequest, GraphQLResponse};
 use axum::routing::get;
 use axum::Router;
@@ -111,7 +112,7 @@ pub async fn run(port: i32) {
         .expect("Could not connect to database");
     let state = AppState { conn: connection };
 
-    let schema = Schema::build(query::Query, EmptyMutation, EmptySubscription)
+    let schema = Schema::build(Query, EmptyMutation, EmptySubscription)
         // .data(connection)
         .finish();
 
