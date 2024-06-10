@@ -60,7 +60,7 @@ pub fn setup_tracer() {
     use tracing_subscriber::util::SubscriberInitExt;
     use tracing_subscriber::Layer;
     use tracing_subscriber::Registry;
-    let filter = EnvFilter::new("trace");
+    let filter = EnvFilter::new("debug");
 
     let registry = Registry::default().with(
         tracing_subscriber::fmt::layer()

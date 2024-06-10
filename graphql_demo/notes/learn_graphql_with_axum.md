@@ -10,3 +10,13 @@
 ## References for Axum
 
 - [Axum Tutorial For Beginners](https://github.com/programatik29/axum-tutorial)
+
+## Troubleshooting 
+
+- Compiling `axum_graphql` error: "/usr/bin/ld: cannot find -lpq"
+  Solution: 
+  
+  ```sh
+  sudo apt-get update
+  sudo apt-get install libpq-dev
+  ```
