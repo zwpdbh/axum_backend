@@ -79,7 +79,7 @@ So, we edit the **workspace**'s `Cargo.toml` to be:
 resolver = "2"
 
 members = [
-  ...
+  # ...
   "seaorm_demo",
   "seaorm_demo/migration",
   "seaorm_demo/entity",
@@ -108,7 +108,7 @@ serde = { version = "1" }
 
 ```toml
 [dependencies]
-...
+# ...
 entity = { path = "./entity" }
 ```
 
