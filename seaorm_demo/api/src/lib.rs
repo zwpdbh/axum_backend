@@ -1,19 +1,21 @@
 mod db;
 mod graphql;
+use entity::async_graphql;
 
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 
 use async_graphql_axum::{GraphQLRequest, GraphQLResponse};
+use axum::extract::State;
 use axum::routing::get;
 use axum::Router;
-use axum::{
-    extract::Extension,
-    response::{Html, IntoResponse},
-};
 use axum::{http::StatusCode, Json};
 use axum::{middleware, Server};
+use axum::{
+    // extract::Extension,
+    response::{Html, IntoResponse},
+};
+use graphql::schema::{build_schema, AppSchema};
 use lazy_static::lazy_static;
-use sea_orm::DatabaseConnection;
 use serde::Serialize;
 use std::env;
 use std::future::ready;
@@ -41,7 +43,8 @@ pub async fn graphql_playground() -> impl IntoResponse {
 }
 
 pub async fn graphql_handler(
-    Extension(schema): Extension<query::ServiceSchema>,
+    // Extension(schema): Extension<AppSchema>,
+    schema: State<AppSchema>,
     req: GraphQLRequest,
 ) -> GraphQLResponse {
     let span = span!(Level::INFO, "graphql_execution");
@@ -61,12 +64,6 @@ pub async fn graphql_handler(
             )),
         )
         .into()
-}
-
-#[derive(Clone)]
-struct AppState {
-    #[allow(unused)]
-    conn: DatabaseConnection,
 }
 
 #[derive(Serialize)]
@@ -107,14 +104,7 @@ async fn shutdown_signal() {
 }
 
 pub async fn run(port: i32) {
-    let connection = sea_orm::Database::connect(std::env::var("DATABASE_URL").unwrap())
-        .await
-        .expect("Could not connect to database");
-    let state = AppState { conn: connection };
-
-    let schema = Schema::build(Query, EmptyMutation, EmptySubscription)
-        // .data(connection)
-        .finish();
+    let schema = build_schema().await;
 
     let prometheus_recorder = tracer::observability::metrics::create_prometheus_recorder();
 
@@ -128,8 +118,8 @@ pub async fn run(port: i32) {
         .route_layer(middleware::from_fn(
             tracer::observability::metrics::track_metrics,
         ))
-        .layer(Extension(schema))
-        .with_state(state);
+        .with_state(schema);
+    // .layer(Extension(schema));
 
     Server::bind(&address.parse().unwrap())
         .serve(app.into_make_service())
