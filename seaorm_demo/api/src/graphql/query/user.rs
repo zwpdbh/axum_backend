@@ -18,4 +18,7 @@ impl UserQuery {
             .await
             .map_err(|e| e.to_string())?)
     }
+    async fn hello(&self, _ctx: &Context<'_>) -> &'static str {
+        "Hello World"
+    }
 }

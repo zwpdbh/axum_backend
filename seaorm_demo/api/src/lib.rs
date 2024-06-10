@@ -5,15 +5,15 @@ use entity::async_graphql;
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 
 use async_graphql_axum::{GraphQLRequest, GraphQLResponse};
-use axum::extract::State;
+// use axum::extract::State;
 use axum::routing::get;
 use axum::Router;
-use axum::{http::StatusCode, Json};
-use axum::{middleware, Server};
 use axum::{
-    // extract::Extension,
+    extract::Extension,
     response::{Html, IntoResponse},
 };
+use axum::{http::StatusCode, Json};
+use axum::{middleware, Server};
 use graphql::schema::{build_schema, AppSchema};
 use lazy_static::lazy_static;
 use serde::Serialize;
@@ -43,8 +43,8 @@ pub async fn graphql_playground() -> impl IntoResponse {
 }
 
 pub async fn graphql_handler(
-    // Extension(schema): Extension<AppSchema>,
-    schema: State<AppSchema>,
+    Extension(schema): Extension<AppSchema>,
+    // schema: State<AppSchema>,
     req: GraphQLRequest,
 ) -> GraphQLResponse {
     let span = span!(Level::INFO, "graphql_execution");
@@ -118,8 +118,8 @@ pub async fn run(port: i32) {
         .route_layer(middleware::from_fn(
             tracer::observability::metrics::track_metrics,
         ))
-        .with_state(schema);
-    // .layer(Extension(schema));
+        // .with_state(schema);
+        .layer(Extension(schema));
 
     Server::bind(&address.parse().unwrap())
         .serve(app.into_make_service())
