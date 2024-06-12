@@ -6,19 +6,30 @@
 cargo install sea-orm-cli
 ```
 
+Here, we follow schema first, then entity.
+
 ## Migration init
+
+Create migration project in workspace:
 
 ```sh 
 sea-orm-cli migrate init
 ```
 
 - This will create a folder `migration` at the same path your execute this command. 
-- It is a standard bin project.
-- Change the sample code from there to meet your need. And follow the generated `README`.
+- It is a standard bin project. So, add it into your workspace like: 
+  
+  ```toml
+    members = [
+        # ...
+        "seaorm_demo/migration",
+    ]
+  ```
+- Change the sample code from there to meet your need. And follow the automatically generated `README` in `migration` project.
 
 ## Generate entities 
 
-1. Generate entity
+1. Generate entity based on schema 
 
 ```sh 
 sea-orm-cli generate entity --tables user -o entity/src --lib --with-serde both --model-extra-derives async_graphql::SimpleObject
