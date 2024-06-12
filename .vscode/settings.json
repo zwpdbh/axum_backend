@@ -1,4 +1,12 @@
 {
+  "[markdown]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  "[toml]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
   "[rust]": {
     "editor.semanticHighlighting.enabled": true,
     "editor.inlayHints.enabled": "off",
