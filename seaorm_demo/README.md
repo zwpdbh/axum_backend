@@ -64,6 +64,19 @@ zw@zwpdbh:~/code/rust_programming/axum_backend/seaorm_demo$ tree .
 6 directories, 12 files
 ```
 
+
+### Generate tables from database with specific tables
+
+For example, here we only generate tables related with acstor
+
+```sh
+sea-orm-cli generate entity \
+-o entity/src/acstor \
+--tables key_feature,milestone,milestone_keyfeature,storage_type,storage_type_keyfeature,workload,workload_keyfeature \
+--lib --with-serde both \
+--model-extra-derives async_graphql::SimpleObject
+```
+
 2. Initialize and configure the entity lib 
 
 ```sh 
