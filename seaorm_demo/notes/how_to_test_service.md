@@ -1,4 +1,6 @@
-## How to test service 
+# How to test service
+
+## How to run
 
 ```sh 
 cargo test -p service -F mock --test mock -- --nocapture
