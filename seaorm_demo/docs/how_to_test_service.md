@@ -141,6 +141,115 @@ To perform mock testing in the service layer of a SeaOrm project, you can use th
 
 This approach allows you to test the service layer in isolation, ensuring that your business logic is correct without the need for a database connection or other dependencies.
 
+## Service Cargo.toml explain
+
+In your `Cargo.toml` file, the sections under `[[test]]` are specifying test targets, and the `[features]` section is defining conditional compilation features. Here's a detailed explanation of each part:
+
+### `[[test]]` Sections
+
+The `[[test]]` sections define individual integration test targets. Each section specifies a separate test target and its required features.
+
+1. **`[[test]]` for `user`**:
+
+    ```toml
+    [[test]]
+    name = "user"
+    required-features = ["mock"]
+    ```
+
+    This block defines an integration test named `user`. The test will be compiled and run when you execute `cargo test --test user`. It requires the `mock` feature to be enabled.
+
+2. **`[[test]]` for `acstor`**:
+
+    ```toml
+    [[test]]
+    name = "acstor"
+    required-features = ["mock"]
+    ```
+
+    This block defines another integration test named `acstor`. Similar to the `user` test, it will be compiled and run when you execute `cargo test --test acstor`. It also requires the `mock` feature to be enabled.
+
+### `[features]` Section
+
+The `[features]` section defines conditional compilation features for your crate.
+
+```toml
+[features]
+mock = ["sea-orm/mock"]
+```
+
+- **`mock`**: This feature, when enabled, includes the `sea-orm/mock` feature. This is useful for testing purposes where you want to mock database interactions using SeaORM's mock feature.
+
+### How They Work Together
+
+- When you run `cargo test -p service -F mock --test user`, Cargo compiles the `service` package, enabling the `mock` feature, and runs the tests defined in the `tests/user.rs` file.
+- Similarly, when you run `cargo test -p service -F mock --test acstor`, Cargo compiles the `service` package with the `mock` feature enabled and runs the tests defined in the `tests/acstor.rs` file.
+
+### Example Usage
+
+Assuming you have the following test files:
+
+- `tests/user.rs`
+- `tests/acstor.rs`
+
+Each file should contain test functions relevant to its context, and they will be compiled and executed based on the corresponding `[[test]]` section in the `Cargo.toml` file.
+
+**Example `tests/user.rs`:**
+
+```rust
+use sea_orm::DatabaseConnection;
+use tokio;
+
+#[tokio::test]
+async fn test_user_creation() {
+    // Test logic for user creation
+    let db = DatabaseConnection::connect("your_database_url").await.unwrap();
+    // Assume you have some user service logic to test
+    let result = user_service::create_user(&db, "John Doe").await;
+    assert!(result.is_ok());
+}
+```
+
+**Example `tests/acstor.rs`:**
+
+```rust
+use sea_orm::DatabaseConnection;
+use tokio;
+
+#[tokio::test]
+async fn test_acstor_functionality() {
+    // Test logic for acstor functionality
+    let db = DatabaseConnection::connect("your_database_url").await.unwrap();
+    // Assume you have some acstor service logic to test
+    let result = acstor_service::some_functionality(&db).await;
+    assert!(result.is_ok());
+}
+```
+
+### Running the Tests
+
+To run the tests, you would use the following commands:
+
+- For the `user` test:
+
+    ```sh
+    cargo test -p service -F mock --test user -- --nocapture
+    ```
+
+- For the `acstor` test:
+
+    ```sh
+    cargo test -p service -F mock --test acstor -- --nocapture
+    ```
+
+### Summary
+
+- **`[[test]]` Sections**: Define individual integration test targets and their required features.
+- **`[features]` Section**: Define conditional compilation features (e.g., `mock` for enabling SeaORM's mock feature).
+- **Usage**: Run specific tests with the required features enabled using Cargo commands.
+
+By organizing your tests and features in this way, you can selectively run and manage different integration tests with specific configurations and dependencies.
+
 ## References 
 
 - [Mocking in Rust: Mockall and alternatives](https://blog.logrocket.com/mocking-rust-mockall-alternatives/)
