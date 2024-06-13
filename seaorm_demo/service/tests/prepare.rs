@@ -8,7 +8,7 @@ use sea_orm::MockExecResult;
 ///  cargo test -p service -F mock --test mock -- --nocapture
 /// And configure rust-analyzer by: "rust-analyzer.cargo.features": ["mock"] to have VS Code recognize and analyze code under conditional compilation attributes
 #[cfg(feature = "mock")]
-pub fn prepare_mock_db() -> DatabaseConnection {
+pub fn prepare_mock_db_for_user() -> DatabaseConnection {
     // Create a new Mock database connection
     MockDatabase::new(DatabaseBackend::Postgres)
         // Add query results

@@ -3,7 +3,7 @@
 ## How to run
 
 ```sh 
-cargo test -p service -F mock --test mock -- --nocapture
+cargo test -p service -F mock --test user -- --nocapture
 ```
 
 ## How to enable vscode check mock code 
