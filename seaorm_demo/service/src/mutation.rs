@@ -1,5 +1,8 @@
+use ::entity::acstor::prelude::*;
+use ::entity::acstor::storage_type;
 use ::entity::user;
 use ::entity::user::Entity as User;
+
 use sea_orm::{DbConn, DbErr, EntityTrait, Set};
 
 pub struct Mutation;
@@ -17,6 +20,22 @@ impl Mutation {
         let res = User::insert(active_model).exec(db).await?;
 
         Ok(user::Model {
+            id: res.last_insert_id,
+            ..form_data
+        })
+    }
+
+    pub async fn create_storage_type(
+        db: &DbConn,
+        form_data: storage_type::Model,
+    ) -> Result<storage_type::Model, DbErr> {
+        let active_model = storage_type::ActiveModel {
+            name: Set(form_data.name.to_string()),
+            ..Default::default()
+        };
+
+        let res = StorageType::insert(active_model).exec(db).await?;
+        Ok(storage_type::Model {
             id: res.last_insert_id,
             ..form_data
         })
