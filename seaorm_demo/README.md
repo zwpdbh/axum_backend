@@ -1,5 +1,17 @@
 # How to use SeaORM 
 
+## General structure of this project
+
+- `seaorm_demo` works like a lib which could be called from other project.
+- `seaorm_demo` is composed by 4 libs.
+    - `api`, `seaorm_demo` directly depends on `api` which is a `axum` program provide `GraphQL` API to public.
+        - GraphQL and DB connection are define here.
+        - Operations related with form are define here.
+        - The CRUD operations are abstract away into service.
+    - `service` is the layer of context which is responsible for CRUD using model (`entity`).
+    - `entity` is generated from `migration`.
+    - `migration` defines our model and how to map to DB tables.
+
 ## Prerequisite 
 
 ```sh 
