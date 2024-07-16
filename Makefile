@@ -28,5 +28,6 @@ sqlx_demo_bookstore_read:
 graphql_demo_start: 
 	cargo run -p axum_graphql graphql-demo --port 3000
 
+# Use this to start service to test acstor CRUD
 seaorm_demo_start: 
 	cargo run -p axum_graphql seaorm-demo --port 3000

@@ -1,7 +1,6 @@
 use crate::command_line::Arguments;
 use crate::command_line::SubCommand;
 use clap::Parser;
-use command_line::sqlx;
 use dotenv::dotenv;
 
 mod command_line;
@@ -13,14 +12,6 @@ async fn main() {
 
     let args = Arguments::parse();
     match args.cmd {
-        SubCommand::GraphqlDemo { port } => {
-            let _ = graphql_demo::run(&port).await;
-        }
-        SubCommand::SqlxDemo { case } => {
-            let _ = sqlx::run(case).await;
-        }
-        SubCommand::DieselDemo { case } => command_line::diesel::run(case),
-
         SubCommand::SeaormDemo { port } => {
             let _ = seaorm_demo::run(port).await;
         }
